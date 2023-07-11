@@ -74,7 +74,7 @@ function updateTable(aboveCount, belowCount, unchangedCount,
     
     // Compute summary statistics used for the box:
     var data_sorted = data.sort(d3.ascending);
-
+    
     var xScale = d3.scaleLinear()
 	.domain([d3.min(data_sorted), d3.max(data_sorted)]) // input domain
 	.range([0, width]); // output range
@@ -194,6 +194,9 @@ function updateTable(aboveCount, belowCount, unchangedCount,
            <th style="border: 1px solid white;">Max</th>
            <th style="border: 1px solid white;">Avg</th>
            <th style="border: 1px solid white;">Median</th>
+           <th style="border: 1px solid white;">q0</th> 
+           <th style="border: 1px solid white;">q1</th> 
+           <th style="border: 1px solid white;">q2</th> 
            <th style="border: 1px solid white;">Std Dev</th> 
         </tr>                                                                    
         <tr style="border: 1px solid white;">
@@ -201,13 +204,14 @@ function updateTable(aboveCount, belowCount, unchangedCount,
            <td id="maxChange" style="border: 1px solid white;"></td>
            <td id="avgChange" style="border: 1px solid white;"></td>
            <td id="medianChange" style="border: 1px solid white;"></td>
+           <td id="quartile0" style="border: 1px solid white;"></td>
+           <td id="quartile1" style="border: 1px solid white;"></td>
+           <td id="quartile2" style="border: 1px solid white;"></td>
            <td id="sdChange" style="border: 1px solid white;"></td>
         </tr>`;
 	
     	document.body.insertBefore(statstable, document.body.firstChild);
     }
-
-    
     
     let maxChangeCell = document.getElementById('maxChange');
     maxChangeCell.textContent = maxChange;
@@ -220,6 +224,15 @@ function updateTable(aboveCount, belowCount, unchangedCount,
     
     let medianChangeCell = document.getElementById('medianChange');
     medianChangeCell.textContent = medianChange;
+
+    let q0Cell = document.getElementById('quartile0');
+    q0Cell.textContent = quartiles[0].toFixed(2);
+    
+    let q1Cell = document.getElementById('quartile1');
+    q1Cell.textContent = quartiles[1].toFixed(2);
+        
+    let q2Cell = document.getElementById('quartile2');
+    q2Cell.textContent = quartiles[2].toFixed(2);
     
     let sdChangeCell = document.getElementById('sdChange');
     sdChangeCell.textContent = sdChange.toFixed(2);
@@ -397,7 +410,8 @@ function scrapeTableData() {
         minChange: minChange,
         avgChange: avgChange,
         medianChange: medianChange,
-        sdChange: sdChange	
+        sdChange: sdChange
+	
     });
 
     // Save the counts to the storage
@@ -430,7 +444,8 @@ function scrapeTableData() {
                               minChange,
                               avgChange,
                               medianChange,
-                              sdChange
+                sdChange
+		
 	       );
     
 }
